@@ -42,7 +42,7 @@ CREATE TABLE sightings (
     species_id INT REFERENCES species(species_id),
     ranger_id INT REFERENCES rangers(ranger_id),
     location VARCHAR(255) NOT NULL,
-    sighting_time  TIMESTAMP NOT NULL,
+    sighting_time TIMESTAMP  NOT NULL,
     notes TEXT
 )
 
@@ -69,17 +69,12 @@ SELECT * FROM sightings
 WHERE location LIKE '%Pass%';
 
 -- FOURTH TASK --
--- SELECT * FROM rangers
--- INNER JOIN sightings ON rangers.ranger_id = sightings.ranger_id
 
 SELECT rangers.name, COUNT(sighting_id) FROM rangers
 INNER JOIN sightings ON rangers.ranger_id = sightings.ranger_id
 GROUP BY rangers.name;
 
 -- FIFTH TASK --
--- SELECT * from species
--- INNER JOIN sightings ON species.species_id = sightings.sighting_id;
-
 SELECT common_name from species
 INNER JOIN sightings ON species.species_id = sightings.sighting_id
 WHERE notes IS NULL;
@@ -100,6 +95,21 @@ UPDATE species
 SET conservation_status = 'Historic'
 WHERE EXTRACT(YEAR FROM species.discovery_date) < 1800
 
+
 -- EIGHTH TASK --
+SELECT
+  sighting_id,
+  CASE 
+    WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
+    WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 12 AND 17 THEN 'Afternoon'
+    ELSE 'Evening'
+  END AS time_of_day
+FROM sightings;
+
+-- NINTH TASK --DELETE FROM rangers
+DELETE FROM rangers
+WHERE ranger_id NOT IN (
+  SELECT DISTINCT ranger_id FROM sightings
+);
 
 
