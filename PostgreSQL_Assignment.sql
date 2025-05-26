@@ -1,6 +1,6 @@
 -- Active: 1747616765373@@localhost@5432@conservation_db
 -- RANGERS TABLE --
-DROP TABLE IF EXISTS rangers;
+-- DROP TABLE IF EXISTS rangers;
 CREATE TABLE rangers (
     ranger_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -16,7 +16,7 @@ VALUES
 SELECT * FROM rangers;
 
 -- SPECIES TABLE --
-DROP TABLE IF EXISTS species;
+-- DROP TABLE IF EXISTS species;
 CREATE TABLE species  (
     species_id SERIAL PRIMARY KEY,
     common_name VARCHAR(255) NOT NULL,
@@ -36,7 +36,7 @@ VALUES
 SELECT * FROM species;
 
 -- SIGHTINGS TABLE --
-DROP TABLE IF EXISTS sightings;
+-- DROP TABLE IF EXISTS sightings;
 CREATE TABLE sightings (
     sighting_id SERIAL PRIMARY KEY,
     species_id INT REFERENCES species(species_id),
@@ -70,7 +70,7 @@ WHERE location LIKE '%Pass%';
 
 -- FOURTH TASK --
 
-SELECT rangers.name, COUNT(sighting_id) FROM rangers
+SELECT rangers.name, COUNT(sighting_id) AS total_sightings FROM rangers
 INNER JOIN sightings ON rangers.ranger_id = sightings.ranger_id
 GROUP BY rangers.name;
 
