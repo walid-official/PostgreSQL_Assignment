@@ -1,6 +1,8 @@
 -- Active: 1747616765373@@localhost@5432@conservation_db
+CREATE DATABASE conservation_db;
+
+
 -- RANGERS TABLE --
--- DROP TABLE IF EXISTS rangers;
 CREATE TABLE rangers (
     ranger_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -13,10 +15,7 @@ VALUES
 ('Bob White', 'River Delta'), 
 ('Carol King', 'Mountain Range');
 
-SELECT * FROM rangers;
-
 -- SPECIES TABLE --
--- DROP TABLE IF EXISTS species;
 CREATE TABLE species  (
     species_id SERIAL PRIMARY KEY,
     common_name VARCHAR(255) NOT NULL,
@@ -33,10 +32,8 @@ VALUES
 ('Red Panda', 'Ailurus fulgens', '1825-01-01', 'Vulnerable'),
 ('Asiatic Elephant', 'Elephas maximus indicus', '1758-01-01', 'Endangered');
 
-SELECT * FROM species;
 
 -- SIGHTINGS TABLE --
--- DROP TABLE IF EXISTS sightings;
 CREATE TABLE sightings (
     sighting_id SERIAL PRIMARY KEY,
     species_id INT REFERENCES species(species_id),
@@ -54,9 +51,6 @@ VALUES
 (3, 3, 'Bamboo Grove East', '2024-05-15 09:10:00', 'Feeding observed'),
 (1, 2, 'Snowfall Pass', '2024-05-18 18:30:00', NULL);
 
-select * FROM sightings;
-
-
 -- FIRST TASK --
 INSERT INTO rangers (name, region) VALUES ('Derek Fox', 'Coastal Plains');
 
@@ -69,15 +63,14 @@ SELECT * FROM sightings
 WHERE location LIKE '%Pass%';
 
 -- FOURTH TASK --
-
 SELECT rangers.name, COUNT(sighting_id) AS total_sightings FROM rangers
 INNER JOIN sightings ON rangers.ranger_id = sightings.ranger_id
 GROUP BY rangers.name;
 
 -- FIFTH TASK --
-SELECT s.common_name 
-FROM species s
-LEFT JOIN sightings si ON s.species_id = si.species_id
+SELECT species.common_name 
+FROM species 
+LEFT JOIN sightings AS si ON species.species_id = si.species_id
 WHERE si.species_id IS NULL;
 
 -- SIXTH TASK --
@@ -94,7 +87,7 @@ LIMIT 2;
 -- SEVENTH TASK --
 UPDATE species
 SET conservation_status = 'Historic'
-WHERE EXTRACT(YEAR FROM species.discovery_date) < 1800
+WHERE EXTRACT(YEAR FROM species.discovery_date) < 1800;
 
 
 -- EIGHTH TASK --
@@ -112,5 +105,3 @@ DELETE FROM rangers
 WHERE ranger_id NOT IN (
   SELECT DISTINCT ranger_id FROM sightings
 );
-
-
