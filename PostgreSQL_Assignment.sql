@@ -51,29 +51,29 @@ VALUES
 (3, 3, 'Bamboo Grove East', '2024-05-15 09:10:00', 'Feeding observed'),
 (1, 2, 'Snowfall Pass', '2024-05-18 18:30:00', NULL);
 
--- FIRST TASK --
+-- 1 FIRST  TASK --
 INSERT INTO rangers (name, region) VALUES ('Derek Fox', 'Coastal Plains');
 
--- SECOND TASK --
+-- 2 SECOND TASK --
 SELECT COUNT(DISTINCT species_id) AS unique_species_count FROM sightings;
 
 
--- THIRD TASK --
+-- 3 THIRD TASK --
 SELECT * FROM sightings 
 WHERE location LIKE '%Pass%';
 
--- FOURTH TASK --
+-- 4 FOURTH TASK --
 SELECT rangers.name, COUNT(sighting_id) AS total_sightings FROM rangers
 INNER JOIN sightings ON rangers.ranger_id = sightings.ranger_id
 GROUP BY rangers.name;
 
--- FIFTH TASK --
+-- 5 FIFTH TASK --
 SELECT species.common_name 
 FROM species 
-LEFT JOIN sightings AS si ON species.species_id = si.species_id
+LEFT JOIN sightings si ON species.species_id = si.species_id
 WHERE si.species_id IS NULL;
 
--- SIXTH TASK --
+-- 6 SIXTH TASK --
 SELECT 
  species.common_name,
  sightings.sighting_time,
@@ -84,13 +84,13 @@ JOIN species ON sightings.species_id = species.species_id
 ORDER BY sightings.sighting_time DESC
 LIMIT 2;
 
--- SEVENTH TASK --
+-- 7 SEVENTH TASK --
 UPDATE species
 SET conservation_status = 'Historic'
 WHERE EXTRACT(YEAR FROM species.discovery_date) < 1800;
 
 
--- EIGHTH TASK --
+-- 8 EIGHTH TASK --
 SELECT
   sighting_id,
   CASE 
@@ -100,8 +100,10 @@ SELECT
   END AS time_of_day
 FROM sightings;
 
--- NINTH TASK --DELETE FROM rangers
+-- 9 NINTH TASK
 DELETE FROM rangers
 WHERE ranger_id NOT IN (
   SELECT DISTINCT ranger_id FROM sightings
 );
+
+
