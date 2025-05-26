@@ -61,7 +61,7 @@ select * FROM sightings;
 INSERT INTO rangers (name, region) VALUES ('Derek Fox', 'Coastal Plains');
 
 -- SECOND TASK --
-SELECT COUNT(DISTINCT species_id) FROM sightings;
+SELECT COUNT(DISTINCT species_id) AS unique_species_count FROM sightings;
 
 
 -- THIRD TASK --
@@ -75,7 +75,6 @@ INNER JOIN sightings ON rangers.ranger_id = sightings.ranger_id
 GROUP BY rangers.name;
 
 -- FIFTH TASK --
--- WHERE si.species_id IS NULL;
 SELECT s.common_name 
 FROM species s
 LEFT JOIN sightings si ON s.species_id = si.species_id
