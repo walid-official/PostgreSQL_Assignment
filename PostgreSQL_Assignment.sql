@@ -23,7 +23,7 @@ CREATE TABLE species  (
     scientific_name VARCHAR(255) NOT NULL,
     discovery_date DATE,
     conservation_status VARCHAR(50) 
-)
+);
 
 -- SPECIES TABLE VALUES --
 INSERT INTO species (common_name, scientific_name, discovery_date, conservation_status) 
@@ -44,7 +44,7 @@ CREATE TABLE sightings (
     location VARCHAR(255) NOT NULL,
     sighting_time TIMESTAMP  NOT NULL,
     notes TEXT
-)
+);
 
 -- INSERT VALUES INTO SIGHTINGS TABLE --
 INSERT INTO sightings (species_id, ranger_id, location, sighting_time, notes)
@@ -75,9 +75,11 @@ INNER JOIN sightings ON rangers.ranger_id = sightings.ranger_id
 GROUP BY rangers.name;
 
 -- FIFTH TASK --
-SELECT common_name from species
-INNER JOIN sightings ON species.species_id = sightings.sighting_id
-WHERE notes IS NULL;
+-- WHERE si.species_id IS NULL;
+SELECT s.common_name 
+FROM species s
+LEFT JOIN sightings si ON s.species_id = si.species_id
+WHERE si.species_id IS NULL;
 
 -- SIXTH TASK --
 SELECT 
